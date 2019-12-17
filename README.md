@@ -1,2 +1,3 @@
 # C-Projects
-All projects in the C language
+This repository contains all personal projects of mine,
+written in the C language. 
