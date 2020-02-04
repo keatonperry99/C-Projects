@@ -34,6 +34,20 @@ int isSameRoom(Room* x, Room* y);
 
 void addRandomConnection(Room* r);
 
+void printGraph(Room* r) {
+	int i;
+	int j;
+	int idx;
+	for (i = 0; i < 7; i++) {
+		printf("ROOM NAME: %s\n", r[i].RoomName);
+		idx = r[i].NumConnections;
+		for (j = 1; j <= idx; j++) {
+			printf("CONNECTION %d: %s\n", j, r[i].Connections[j-1]);
+		}
+		printf("ROOM TYPE: %s\n\n", r[i].RoomType);
+	}
+}
+
 /*
 Main function
 */
@@ -48,8 +62,15 @@ void main() {
 	*/
 	Room* r = malloc(7 * sizeof(Room));
 	int i;
-	for (i = 0; i < 6; i++) {
-		r[i].Connections = malloc(6 * sizeof(char));
+	int j;
+	r->Connections = malloc(7 * sizeof(char*));
+	for (i = 0; i < 7; i++) {
+		r[i].Connections = malloc(6 * sizeof(char*));
+	}
+	for (i = 0; i < 7; i++) {
+		for (j = 0; j < 6; j++) {
+			r[i].Connections[j] = "NULL";
+		}
 	}
 
 	/*
@@ -75,6 +96,11 @@ void main() {
 	while (isGraphFull(r) == 0) {
 		addRandomConnection(r);
 	}
+
+	/*
+	Printing all the data
+	*/
+	printGraph(r);
 }
 
 
@@ -224,5 +250,4 @@ void addRandomConnection(Room* r) {
 		connectionAlreadyExists(A, B) == 1);
 
 	connectRooms(A, B);
-	printf("%s ", A->Connections[0]);
 }
