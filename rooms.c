@@ -34,6 +34,7 @@ int isSameRoom(Room* x, Room* y);
 
 void addRandomConnection(Room* r);
 
+/*
 void printGraph(Room* r) {
 	int i;
 	int j;
@@ -47,6 +48,7 @@ void printGraph(Room* r) {
 		printf("ROOM TYPE: %s\n\n", r[i].RoomType);
 	}
 }
+*/
 
 /*
 Main function
@@ -100,7 +102,7 @@ void main() {
 	/*
 	Printing all the data
 	*/
-	printGraph(r);
+	/*printGraph(r);*/
 }
 
 
