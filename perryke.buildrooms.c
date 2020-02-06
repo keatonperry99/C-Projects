@@ -2,6 +2,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 /*
 The struct for the rooms
@@ -33,22 +36,6 @@ void connectRooms(Room* x, Room* y);
 int isSameRoom(Room* x, Room* y);
 
 void addRandomConnection(Room* r);
-
-/*
-void printGraph(Room* r) {
-	int i;
-	int j;
-	int idx;
-	for (i = 0; i < 7; i++) {
-		printf("ROOM NAME: %s\n", r[i].RoomName);
-		idx = r[i].NumConnections;
-		for (j = 1; j <= idx; j++) {
-			printf("CONNECTION %d: %s\n", j, r[i].Connections[j-1]);
-		}
-		printf("ROOM TYPE: %s\n\n", r[i].RoomType);
-	}
-}
-*/
 
 /*
 Main function
@@ -101,8 +88,17 @@ void main() {
 
 	/*
 	Printing all the data
+	
+	int idx;
+	for (i = 0; i < 7; i++) {
+		printf("ROOM NAME: %s\n", r[i].RoomName);
+		idx = r[i].NumConnections;
+		for (j = 1; j <= idx; j++) {
+			printf("CONNECTION %d: %s\n", j, r[i].Connections[j - 1]);
+		}
+		printf("ROOM TYPE: %s\n\n", r[i].RoomType);
+	}
 	*/
-	/*printGraph(r);*/
 }
 
 
