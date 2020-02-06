@@ -100,60 +100,74 @@ void main() {
 	/*
 	Creating and writing the first file
 	*/
-
+	/*
 	FILE *fptr;
 	char pathname[54];
 	sprintf(pathname, "%s/first.txt", dirname);
 	fptr = fopen(pathname, "w");
-
-	/* Writing to room name */
+	*/
+	/* Writing the room name */
+	/*
 	char alldata[356];
 	sprintf(alldata, "ROOM NAME: %s\n", r[0].RoomName);
 	fprintf(fptr, alldata);
-
+	*/
 	/* Writing the room connections */
+	/*
 	for (i = 1; i <= r[0].NumConnections; i++) {
 		sprintf(alldata, "CONNECTION %d: %s\n", i, r[0].Connections[i-1]);
 		fprintf(fptr, alldata);
 	}
-	
+	*/
 	/* Writing the room type */
+	/*
 	sprintf(alldata, "ROOM TYPE: %s\n", r[0].RoomType);
 	fprintf(fptr, alldata);
-	
+	*/
 	/* Closing the first file */
-	fclose(fptr);
-	
-
 	/*
-	char tmpstr[50];
+	fclose(fptr);
+	*/
+
+	FILE* fptr;
 	char pathname[54];
 	char alldata[356];
-	for (i = 0; i < 7; i++) {
-		if (i == 0) *tmpstr = "/first.txt";
-		else if (i == 1) *tmpstr = "/second.txt";
-		else if (i == 2) *tmpstr = "/third.txt";
-		else if (i == 3) *tmpstr = "/fourth.txt";
-		else if (i == 4) *tmpstr = "/fifth.txt";
-		else if (i == 5) *tmpstr = "/sixth.txt";
-		else if (i == 6) *tmpstr = "/seventh.txt";
+	for (j = 0; j < 7; j++) {
+		if (j == 0)
+			sprintf(pathname, "%s/first.txt", dirname);
+		else if (j == 1)
+			sprintf(pathname, "%s/second.txt", dirname);
+		else if (j == 2)
+			sprintf(pathname, "%s/third.txt", dirname);
+		else if (j == 3)
+			sprintf(pathname, "%s/fourth.txt", dirname);
+		else if (j == 4)
+			sprintf(pathname, "%s/fifth.txt", dirname);
+		else if (j == 5)
+			sprintf(pathname, "%s/sixth.txt", dirname);
+		else if (j == 6)
+			sprintf(pathname, "%s/seventh.txt", dirname);
 
-		sprintf(pathname, "%s%s", dirname, tmpstr);
 		fptr = fopen(pathname, "w");
 
-		sprintf(alldata, "ROOM NAME: %s\n", r[i].RoomName);
+		/* Writing the room name */
+		sprintf(alldata, "ROOM NAME: %s\n", r[j].RoomName);
 		fprintf(fptr, alldata);
 
-		for (j = 1; j <= r[i].NumConnections; j++) {
-			sprintf(alldata, "CONNECTION %d: %s\n", j, r[i].Connections[j - 1]);
+		/* Writing the room connections */
+		for (i = 1; i <= r[j].NumConnections; i++) {
+			sprintf(alldata, "CONNECTION %d: %s\n", i, r[j].Connections[i - 1]);
 			fprintf(fptr, alldata);
 		}
 
-		sprintf(alldata, "ROOM TYPE: %s\n", r[i].RoomType);
+		/* Writing the room type */
+		sprintf(alldata, "ROOM TYPE: %s\n", r[j].RoomType);
 		fprintf(fptr, alldata);
+
+		/* Closing the first file */
 		fclose(fptr);
 	}
-	*/
+	
 }
 
 
