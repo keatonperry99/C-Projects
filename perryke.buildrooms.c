@@ -4,8 +4,8 @@
 #include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-//#include <unistd.h>
-//#include <dirent.h>
+#include <unistd.h>
+#include <dirent.h>
 #include <fcntl.h>
 
 /*
@@ -126,13 +126,10 @@ void main() {
 	/*
 	Creating and writing the second file
 	*/
-	FILE* fptr;
-	char pathname[54];
 	sprintf(pathname, "%s/second.txt", dirname);
 	fptr = fopen(pathname, "w");
 
 	/* Writing to room name */
-	char alldata[356];
 	sprintf(alldata, "ROOM NAME: %s\n", r[1].RoomName);
 	fprintf(fptr, alldata);
 
