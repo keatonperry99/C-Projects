@@ -5,6 +5,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <dirent.h>
+#include <fcntl.h>
 
 /*
 The struct for the rooms
@@ -87,18 +89,32 @@ void main() {
 	}
 
 	/*
-	Printing all the data
-	
-	int idx;
-	for (i = 0; i < 7; i++) {
-		printf("ROOM NAME: %s\n", r[i].RoomName);
-		idx = r[i].NumConnections;
-		for (j = 1; j <= idx; j++) {
-			printf("CONNECTION %d: %s\n", j, r[i].Connections[j - 1]);
-		}
-		printf("ROOM TYPE: %s\n\n", r[i].RoomType);
-	}
+	// Creating the directory
 	*/
+	char prefix[] = "perryke.rooms.";
+	int pid = getpid();
+	char dirname[36];
+	sprintf(dirname, "%s%d", prefix, pid);
+	mkdir(dirname, 0755);
+
+	/* Creating the first file */
+	FILE *fptr;
+	char pathname[54];
+	sprintf(pathname, "%s/first.txt", dirname);
+	fptr = fopen(pathname, "w");
+
+	/* Writing to the first file */
+	char alldata[356];
+	sprintf(alldata, "ROOM NAME: %s\n", r[0].RoomName);
+	fprintf(fptr, alldata);
+	for (i = 1; i <= r[0].NumConnections; i++) {
+		sprintf(alldata, "CONNECTION %d: %s\n", i, r[0].Connections[i-1]);
+		fprintf(fptr, alldata);
+	}
+	sprintf(alldata, "ROOM TYPE: %s\n", r[0].RoomType);
+	fprintf(fptr, alldata);
+	fclose(fptr);
+
 }
 
 
