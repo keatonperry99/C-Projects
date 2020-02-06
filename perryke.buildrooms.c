@@ -102,34 +102,30 @@ void main() {
 	*/
 
 	FILE *fptr;
-	/*
 	char pathname[54];
 	sprintf(pathname, "%s/first.txt", dirname);
 	fptr = fopen(pathname, "w");
-	*/
+
 	/* Writing to room name */
-	/*
 	char alldata[356];
 	sprintf(alldata, "ROOM NAME: %s\n", r[0].RoomName);
 	fprintf(fptr, alldata);
-	*/
+
 	/* Writing the room connections */
-	/*
 	for (i = 1; i <= r[0].NumConnections; i++) {
 		sprintf(alldata, "CONNECTION %d: %s\n", i, r[0].Connections[i-1]);
 		fprintf(fptr, alldata);
 	}
-	*/
+	
 	/* Writing the room type */
-	/*
 	sprintf(alldata, "ROOM TYPE: %s\n", r[0].RoomType);
 	fprintf(fptr, alldata);
-	*/
+	
 	/* Closing the first file */
-	/*
 	fclose(fptr);
-	*/
+	
 
+	/*
 	char tmpstr[50];
 	char pathname[54];
 	char alldata[356];
@@ -157,7 +153,7 @@ void main() {
 		fprintf(fptr, alldata);
 		fclose(fptr);
 	}
-
+	*/
 }
 
 
