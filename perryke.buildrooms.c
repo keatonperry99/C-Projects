@@ -4,8 +4,8 @@
 #include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
-#include <dirent.h>
+//#include <unistd.h>
+//#include <dirent.h>
 #include <fcntl.h>
 
 /*
@@ -97,22 +97,56 @@ void main() {
 	sprintf(dirname, "%s%d", prefix, pid);
 	mkdir(dirname, 0755);
 
-	/* Creating the first file */
+	/*
+	Creating and writing the first file
+	*/
 	FILE *fptr;
 	char pathname[54];
 	sprintf(pathname, "%s/first.txt", dirname);
 	fptr = fopen(pathname, "w");
 
-	/* Writing to the first file */
+	/* Writing to room name */
 	char alldata[356];
 	sprintf(alldata, "ROOM NAME: %s\n", r[0].RoomName);
 	fprintf(fptr, alldata);
+
+	/* Writing the room connections */
 	for (i = 1; i <= r[0].NumConnections; i++) {
 		sprintf(alldata, "CONNECTION %d: %s\n", i, r[0].Connections[i-1]);
 		fprintf(fptr, alldata);
 	}
+
+	/* Writing the room type */
 	sprintf(alldata, "ROOM TYPE: %s\n", r[0].RoomType);
 	fprintf(fptr, alldata);
+
+	/* Closing the first file */
+	fclose(fptr);
+
+	/*
+	Creating and writing the second file
+	*/
+	FILE* fptr;
+	char pathname[54];
+	sprintf(pathname, "%s/second.txt", dirname);
+	fptr = fopen(pathname, "w");
+
+	/* Writing to room name */
+	char alldata[356];
+	sprintf(alldata, "ROOM NAME: %s\n", r[1].RoomName);
+	fprintf(fptr, alldata);
+
+	/* Writing the room connections */
+	for (i = 1; i <= r[1].NumConnections; i++) {
+		sprintf(alldata, "CONNECTION %d: %s\n", i, r[1].Connections[i - 1]);
+		fprintf(fptr, alldata);
+	}
+
+	/* Writing the room type */
+	sprintf(alldata, "ROOM TYPE: %s\n", r[1].RoomType);
+	fprintf(fptr, alldata);
+
+	/* Closing the first file */
 	fclose(fptr);
 
 }
