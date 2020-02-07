@@ -6,11 +6,10 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-void main() {
+void getDir(char* newestDirName) {
 
 	int newestDirTime = -1;
 	char targetDirPrefix[32] = "perryke.rooms.";
-	char newestDirName[256];
 	memset(newestDirName, '\0', sizeof(newestDirName));
 
 	DIR* dirToCheck;
@@ -33,6 +32,10 @@ void main() {
 		}
 	}
 	closedir(dirToCheck);
+}
 
-	printf("Name of the directory is: %s\n", newestDirName);
+void main() {
+	char newestDirName[256];
+	getDir(newestDirName);
+	printf("Directory: %s\n", newestDirName);
 }
