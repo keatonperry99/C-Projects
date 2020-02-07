@@ -41,11 +41,17 @@ void main() {
 		r[i].NumConnections = 0;
 	}
 
-	setRoomInfo(0, r);
-	printf("Room name is: %s\n", r[0].RoomName);
-	for (i = 0; i < r[0].NumConnections; i++) {
-		printf("Connection %d: %s\n", i + 1, r[0].Connections[i]);
+	for (i = 0; i < 7; i++)
+		setRoomInfo(i, r);
+
+	for (i = 0; i < 7; i++) {
+		printf("ROOM NAME: %s\n", r[i].RoomName);
+		for (j = 0; i < r[i].NumConnections; i++) {
+			printf("CONNECTION %d: %s\n", j + 1, r[i].Connections[j]);
+		}
+		printf("ROOM TYPE: %s\n\n", r[i].RoomType);
 	}
+
 }
 /* 
 Function that returns the name of the most recently created directory. 
@@ -187,6 +193,17 @@ void setRoomInfo(int idx, Room* r) {
 		if (strcmp(connecName, file[i]) == 0)
 			r[idx].Connections[i - 1] = "Dark";
 	}
+
+	/* Getting the room type */
+	char roomType1[128] = "ROOM TYPE: START_ROOM\n";
+	char roomType2[128] = "ROOM TYPE: MID_ROOM\n";
+	char roomType3[128] = "ROOM TYPE: END_ROOM\n";
+	if (strcmp(roomType1, file[numlines - 1]) == 0)
+		r[idx].RoomType = "START_ROOM";
+	else if (strcmp(roomType2, file[numlines - 1] == 0))
+		r[idx].RoomType = "MID_ROOM";
+	else if (strcmp(roomType3, file[numlines - 1] == 0))
+		r[idx].RoomType = "END_ROOM";
 
 	return;
 }
