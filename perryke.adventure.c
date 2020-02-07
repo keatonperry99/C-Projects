@@ -32,17 +32,26 @@ void getDir(char* newestDirName);
 void setRoomInfo(int idx, Room* r);
 
 /* Function to print the current room */
-void getCurrentRoom(Player* p) {
-	printf("CURRENT LOCATION: %s\n", p->CurrentRoom.RoomName);
-}
+void getCurrentRoom(Player* p);
 
 /* Function to print the possible room connections */
-void getConnections(Player* p) {
-	int i;
-	printf("POSSIBLE CONNECTIONS: ");
-	for (i = 0; i < p->CurrentRoom.NumConnections; i++) {
-		printf("%s, ", p->CurrentRoom.Connections[i]);
-	}
+void getConnections(Player* p);
+
+/* Function that acts as a hub for the game */
+int startGame(Player* p, Room* r) {
+	getCurrentRoom(p);
+	getConnections(p);
+
+	char buffer[32];
+	char* b = buffer;
+	size_t bufsize = 32;
+	size_t characters;
+	printf("WHERE TO? >");
+	characters = getline(&b, &bufsize, stdin);
+	printf("Your sentence: %s\n", buffer);
+
+
+	return 0;
 }
 
 /*
@@ -75,10 +84,10 @@ void main() {
 	/*
 	Starting the game
 	*/
+	while (startGame(p, r) == 1) {
 
-	/* Printing the current location */
-	getCurrentRoom(p);
-	getConnections(p);
+	}
+
 }
 /* 
 Function that returns the name of the most recently created directory. 
@@ -233,4 +242,21 @@ void setRoomInfo(int idx, Room* r) {
 		r[idx].RoomType = "END_ROOM";
 
 	return;
+}
+
+/* Function to print the current room */
+void getCurrentRoom(Player* p) {
+	printf("CURRENT LOCATION: %s\n", p->CurrentRoom.RoomName);
+}
+
+/* Function to print the possible room connections */
+void getConnections(Player* p) {
+	int i;
+	printf("POSSIBLE CONNECTIONS: ");
+	for (i = 0; i < p->CurrentRoom.NumConnections; i++) {
+		if (i != (p->CurrentRoom.NumConnections - 1))
+			printf("%s, ", p->CurrentRoom.Connections[i]);
+		else
+			printf("%s.\n", p->CurrentRoom.Connections[i]);
+	}
 }
