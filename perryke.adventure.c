@@ -39,6 +39,18 @@ void getConnections(Player* p);
 
 /* Function that acts as a hub for the game */
 int startGame(Player* p, Room* r) {
+	/* Checking to see if the current room is the end room */
+	int i;
+	char type[128] = "END_ROOM";
+	if (strcmp(type, p->CurrentRoom.RoomType) == 0) {
+		printf("YOU HAVE FOUND THE END ROOM. CONGRATULATIONS!\n");
+		printf("YOU TOOK %d STEPS. YOUR PATH TO VICTORY WAS:\n", p->numTurns);
+		for (i = 0; i < p->numTurns; i++) {
+			printf("%s", p->Rooms[i]);
+		}
+		return 0;
+	}
+
 	/* Printing the current room and possible connections */
 	getCurrentRoom(p);
 	getConnections(p);
@@ -54,10 +66,9 @@ int startGame(Player* p, Room* r) {
 	/* Checking if the user's input matches any valid connections */
 	char conect[128];
 	int valid = 0;
-	int i;
 	for (i = 0; i < p->CurrentRoom.NumConnections; i++) {
 		sprintf(conect, "%s\n", p->CurrentRoom.Connections[i]);
-		if (strcmp(p->CurrentRoom.Connections[i], buffer) == 0) {
+		if (strcmp(conect, buffer) == 0) {
 			valid = 1;
 			break;
 		}
@@ -79,7 +90,7 @@ int startGame(Player* p, Room* r) {
 			p->CurrentRoom = r[i];
 	}
 
-	return 0;
+	printf("\n");
 }
 
 /*
@@ -115,9 +126,6 @@ void main() {
 	while (startGame(p, r) == 1) {
 
 	}
-	getCurrentRoom(p);
-	getConnections(p);
-
 }
 /* 
 Function that returns the name of the most recently created directory. 
