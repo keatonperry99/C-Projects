@@ -79,7 +79,8 @@ int startGame(Player* p, Room* r) {
 	}
 
 	/* If the user's input is valid */
-	p->Rooms[p->numTurns] = buffer;
+	p->Rooms[p->numTurns] = conect;
+	printf("\n\n%s\n\n", p->Rooms[p->numTurns]);
 	p->numTurns++;
 
 	/* Moving the user to the next room */
@@ -91,6 +92,7 @@ int startGame(Player* p, Room* r) {
 	}
 
 	printf("\n");
+	return 1;
 }
 
 /*
@@ -123,6 +125,7 @@ void main() {
 	/*
 	Starting the game
 	*/
+	p->numTurns = 0;
 	while (startGame(p, r) == 1) {
 
 	}
