@@ -6,6 +6,25 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+/*
+Function Prototypes
+*/
+
+/* Function to get the name of the newest directory */
+void getDir(char* newestDirName);
+
+void main() {
+	char dirName[256];
+	getDir(dirName);
+	printf("Directory: %s\n", dirName);
+}
+
+/* 
+Function that returns the name of the most recently created directory. 
+Preconditions: There is a directory that's been created. 
+Postconditions: The name of the most recently created directory will
+	be returned. 
+*/
 void getDir(char* newestDirName) {
 
 	int newestDirTime = -1;
@@ -32,10 +51,4 @@ void getDir(char* newestDirName) {
 		}
 	}
 	closedir(dirToCheck);
-}
-
-void main() {
-	char newestDirName[256];
-	getDir(newestDirName);
-	printf("Directory: %s\n", newestDirName);
 }
