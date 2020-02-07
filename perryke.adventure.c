@@ -7,7 +7,7 @@
 
 void main() {
 	int newestDirTime = -1;
-	char targetDirPrefix[32];
+	char targetDirPrefix[32] = "perryke.rooms.";
 	char newestDirName[256];
 	memset(newestDirName, '\0', sizeof(newestDirName));
 
