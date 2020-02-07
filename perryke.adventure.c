@@ -36,7 +36,14 @@ void getCurrentRoom(Player* p) {
 	printf("CURRENT LOCATION: %s\n", p->CurrentRoom.RoomName);
 }
 
-
+/* Function to print the possible room connections */
+void getConnections(Player* p) {
+	int i;
+	printf("POSSIBLE CONNECTIONS: ");
+	for (i = 0; i < p->CurrentRoom.NumConnections; i++) {
+		printf("%s, ", p->CurrentRoom.Connections[i]);
+	}
+}
 
 /*
 Main Function
@@ -71,6 +78,7 @@ void main() {
 
 	/* Printing the current location */
 	getCurrentRoom(p);
+	getConnections(p);
 }
 /* 
 Function that returns the name of the most recently created directory. 
