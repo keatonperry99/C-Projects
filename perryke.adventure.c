@@ -39,17 +39,45 @@ void getConnections(Player* p);
 
 /* Function that acts as a hub for the game */
 int startGame(Player* p, Room* r) {
+	/* Printing the current room and possible connections */
 	getCurrentRoom(p);
 	getConnections(p);
 
+	/* Getting the user's input */
 	char buffer[32];
 	char* b = buffer;
 	size_t bufsize = 32;
 	size_t characters;
 	printf("WHERE TO? >");
 	characters = getline(&b, &bufsize, stdin);
-	printf("Your sentence: %s\n", buffer);
+	
+	/* Checking if the user's input matches any valid connections */
+	char conect[128];
+	int valid = 0;
+	int i;
+	for (i = 0; i < p->CurrentRoom.NumConnections; i++) {
+		sprintf(conect, "%s\n", p->CurrentRoom.Connections[i]);
+		if (strcmp(p->CurrentRoom.Connections[i], buffer) == 0) {
+			valid = 1;
+			break;
+		}
+	}
+	if (valid == 0) {
+		printf("\nHUH? I DON'T UNDERSTAND THAT ROOM. TRY AGAIN.\n\n");
+		return 1;
+	}
 
+	/* If the user's input is valid */
+	p->Rooms[p->numTurns] = buffer;
+	p->numTurns++;
+
+	/* Moving the user to the next room */
+	char tmpstr[128];
+	for (i = 0; i < 7; i++) {
+		sprintf(tmpstr, "%s\n", r[i].RoomName);
+		if (strcmp(buffer, tmpstr) == 0)
+			p->CurrentRoom = r[i];
+	}
 
 	return 0;
 }
@@ -87,6 +115,8 @@ void main() {
 	while (startGame(p, r) == 1) {
 
 	}
+	getCurrentRoom(p);
+	getConnections(p);
 
 }
 /* 
