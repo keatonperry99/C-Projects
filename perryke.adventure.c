@@ -58,25 +58,36 @@ void setRoom(int idx, Room* r) {
 	int numlines = i;
 
 	/* Setting the room name */
-	if (file[0] == "ROOM NAME: Train")
+	char name1[128] = "ROOM NAME: Train\n";
+	char name2[128] = "ROOM NAME: Woody\n";
+	char name3[128] = "ROOM NAME: Freezer\n";
+	char name4[128] = "ROOM NAME: Fridge\n";
+	char name5[128] = "ROOM NAME: Wombat\n";
+	char name6[128] = "ROOM NAME: Aqua\n";
+	char name7[128] = "ROOM NAME: Metal\n";
+	char name8[128] = "ROOM NAME: Buffalo\n";
+	char name9[128] = "ROOM NAME: Stones\n";
+	char name10[128] = "ROOM NAME: Dark\n";
+	
+	if (strcmp(name1, file[0]) == 0)
 		r[idx].RoomName = "Train";
-	else if (file[0] == "ROOM NAME: Woody")
+	else if (strcmp(name2, file[0]) == 0)
 		r[idx].RoomName = "Woody";
-	else if (file[0] == "ROOM NAME: Freezer")
+	else if (strcmp(name3, file[0]) == 0)
 		r[idx].RoomName = "Freezer";
-	else if (file[0] == "ROOM NAME: Fridge")
+	else if (strcmp(name4, file[0]) == 0)
 		r[idx].RoomName = "Fridge";
-	else if (file[0] == "ROOM NAME: Wombat")
+	else if (strcmp(name5, file[0]) == 0)
 		r[idx].RoomName = "Wombat";
-	else if (file[0] == "ROOM NAME: Aqua")
+	else if (strcmp(name6, file[0]) == 0)
 		r[idx].RoomName = "Aqua";
-	else if (file[0] == "ROOM NAME: Metal")
+	else if (strcmp(name7, file[0]) == 0)
 		r[idx].RoomName = "Metal";
-	else if (file[0] == "ROOM NAME: Buffalo")
+	else if (strcmp(name8, file[0]) == 0)
 		r[idx].RoomName = "Buffalo";
-	else if (file[0] == "ROOM NAME: Stones")
+	else if (strcmp(name9, file[0]) == 0)
 		r[idx].RoomName = "Stones";
-	else if (file[0] == "ROOM NAME: Dark")
+	else if (strcmp(name10, file[0]) == 0)
 		r[idx].RoomName = "Dark";
 
 	return;
