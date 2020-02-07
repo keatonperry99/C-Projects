@@ -16,9 +16,25 @@ void getDir(char* newestDirName);
 void main() {
 	char dirName[256];
 	getDir(dirName);
-	printf("Directory: %s\n", dirName);
+	char pathname[54];
+	sprintf(pathname, "%s/first.txt", dirName);
+	
+	char line[128];
+	char file[10][128];
+	int i = 0;
+	FILE* plist;
+	plist = fopen(pathname, "r");
+	while (fgets(line, sizeof(line), plist) != NULL) {
+		strcpy(file[i], line);
+		i++;
+	}
+	fclose(plist);
+	int numlines = i;
+	
+	for (i = 0; i < numlines; i++) {
+		printf("%s", file[i]);
+	}
 }
-
 /* 
 Function that returns the name of the most recently created directory. 
 Preconditions: There is a directory that's been created. 
@@ -45,7 +61,6 @@ void getDir(char* newestDirName) {
 					newestDirTime = (int)dirAttributes.st_mtime;
 					memset(newestDirName, '\0', sizeof(newestDirName));
 					strcpy(newestDirName, fileInDir->d_name);
-					printf("Newer subdir: %s, new time: %d\n", fileInDir->d_name, newestDirTime);
 				}
 			}
 		}
