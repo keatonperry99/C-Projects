@@ -33,7 +33,6 @@ void main() {
 		}
 	}
 	closedir(dirToCheck);
-	return newestDirName;
 
 	printf("Name of the directory is: %s\n", newestDirName);
 }
