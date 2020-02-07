@@ -5,7 +5,12 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-void main() {
+/* 
+Function Prototypes
+*/
+
+/* Function to return the name of the directory */
+char* getDirectory() {
 	int newestDirTime = -1;
 	char targetDirPrefix[32] = "perryke.rooms.";
 	char newestDirName[256];
@@ -30,8 +35,14 @@ void main() {
 			}
 		}
 	}
-
 	closedir(dirToCheck);
+	return newestDirName;
+}
+
+
+void main() {
+	
+	char newestDirName[256] = getDirectory();
 
 	printf("Name of the directory is: %s\n", newestDirName);
 }
