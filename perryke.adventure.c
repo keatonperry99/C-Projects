@@ -14,6 +14,13 @@ typedef struct {
 	char** Connections;
 }Room;
 
+/* Struct for the player */
+typedef struct {
+	int numTurns;
+	char** Rooms;
+	Room CurrentRoom;
+}Player;
+
 /*
 Function Prototypes
 */
@@ -24,7 +31,16 @@ void getDir(char* newestDirName);
 /* Function to set the room info */
 void setRoomInfo(int idx, Room* r);
 
+/* Function to print the current room */
+void getCurrentRoom(Player* p) {
+	printf("CURRENT LOCATION: %s\n", p->CurrentRoom.RoomName);
+}
 
+
+
+/*
+Main Function
+*/
 
 void main() {
 	/* Declaring the array of room structs */
@@ -36,22 +52,25 @@ void main() {
 	for (i = 0; i < 7; i++) {
 		r[i].Connections = malloc(6 * sizeof(char*));
 	}
-	/* Setting the initial number of connections for each room */
-	for (i = 0; i < 7; i++) {
-		r[i].NumConnections = 0;
-	}
-
+	/* Setting the room info */
 	for (i = 0; i < 7; i++)
 		setRoomInfo(i, r);
 
-	for (i = 0; i < 7; i++) {
-		printf("ROOM NAME: %s\n", r[i].RoomName);
-		for (j = 0; i < r[i].NumConnections; i++) {
-			printf("CONNECTION %d: %s\n", j + 1, r[i].Connections[j]);
-		}
-		printf("ROOM TYPE: %s\n\n", r[i].RoomType);
-	}
+	/* Declaring the player struct */
+	Player* p;
+	p = malloc(sizeof(Player));
+	
+	p->Rooms = malloc(12 * sizeof(char*));
+	
+	/* Getting the starting room */
+	p->CurrentRoom = r[0];
+	
+	/*
+	Starting the game
+	*/
 
+	/* Printing the current location */
+	getCurrentRoom(p);
 }
 /* 
 Function that returns the name of the most recently created directory. 
@@ -200,9 +219,9 @@ void setRoomInfo(int idx, Room* r) {
 	char roomType3[128] = "ROOM TYPE: END_ROOM\n";
 	if (strcmp(roomType1, file[numlines - 1]) == 0)
 		r[idx].RoomType = "START_ROOM";
-	else if (strcmp(roomType2, file[numlines - 1] == 0))
+	if (strcmp(roomType2, file[numlines - 1]) == 0)
 		r[idx].RoomType = "MID_ROOM";
-	else if (strcmp(roomType3, file[numlines - 1] == 0))
+	if (strcmp(roomType3, file[numlines - 1]) == 0)
 		r[idx].RoomType = "END_ROOM";
 
 	return;
