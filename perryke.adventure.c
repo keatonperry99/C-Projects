@@ -21,77 +21,9 @@ Function Prototypes
 /* Function to get the name of the newest directory */
 void getDir(char* newestDirName);
 
-/* Function to get the information of the rooms */
-void setRoom(int idx, Room* r) {
-	/* Getting the directory name */
-	char dirName[256];
-	getDir(dirName);
-	/* Getting the path name */
-	char pathname[54];
-	if (idx == 0) 
-		sprintf(pathname, "%s/first.txt", dirName);
-	else if (idx == 1)
-		sprintf(pathname, "%s/second.txt", dirName);
-	else if (idx == 2)
-		sprintf(pathname, "%s/third.txt", dirName);
-	else if (idx == 3)
-		sprintf(pathname, "%s/fourth.txt", dirName);
-	else if (idx == 4)
-		sprintf(pathname, "%s/fifth.txt", dirName);
-	else if (idx == 5)
-		sprintf(pathname, "%s/sixth.txt", dirName);
-	else if (idx == 6)
-		sprintf(pathname, "%s/seventh.txt", dirName);
+/* Function to set the room info */
+void setRoomInfo(int idx, Room* r);
 
-	/* Reading the file and storing it in an array */
-	char line[128];
-	char file[10][128];
-	int i = 0;
-	FILE* plist;
-	plist = fopen(pathname, "r");
-	/* Storing the file, line by line */
-	while (fgets(line, sizeof(line), plist) != NULL) {
-		strcpy(file[i], line);
-		i++;
-	}
-	fclose(plist);
-	int numlines = i;
-
-	/* Setting the room name */
-	char name1[128] = "ROOM NAME: Train\n";
-	char name2[128] = "ROOM NAME: Woody\n";
-	char name3[128] = "ROOM NAME: Freezer\n";
-	char name4[128] = "ROOM NAME: Fridge\n";
-	char name5[128] = "ROOM NAME: Wombat\n";
-	char name6[128] = "ROOM NAME: Aqua\n";
-	char name7[128] = "ROOM NAME: Metal\n";
-	char name8[128] = "ROOM NAME: Buffalo\n";
-	char name9[128] = "ROOM NAME: Stones\n";
-	char name10[128] = "ROOM NAME: Dark\n";
-	
-	if (strcmp(name1, file[0]) == 0)
-		r[idx].RoomName = "Train";
-	else if (strcmp(name2, file[0]) == 0)
-		r[idx].RoomName = "Woody";
-	else if (strcmp(name3, file[0]) == 0)
-		r[idx].RoomName = "Freezer";
-	else if (strcmp(name4, file[0]) == 0)
-		r[idx].RoomName = "Fridge";
-	else if (strcmp(name5, file[0]) == 0)
-		r[idx].RoomName = "Wombat";
-	else if (strcmp(name6, file[0]) == 0)
-		r[idx].RoomName = "Aqua";
-	else if (strcmp(name7, file[0]) == 0)
-		r[idx].RoomName = "Metal";
-	else if (strcmp(name8, file[0]) == 0)
-		r[idx].RoomName = "Buffalo";
-	else if (strcmp(name9, file[0]) == 0)
-		r[idx].RoomName = "Stones";
-	else if (strcmp(name10, file[0]) == 0)
-		r[idx].RoomName = "Dark";
-
-	return;
-}
 
 
 void main() {
@@ -109,8 +41,11 @@ void main() {
 		r[i].NumConnections = 0;
 	}
 
-	setRoom(0, r);
+	setRoomInfo(0, r);
 	printf("Room name is: %s\n", r[0].RoomName);
+	for (i = 0; i < r[0].NumConnections; i++) {
+		printf("Connection %d: %s\n", i + 1, r[0].Connections[i]);
+	}
 }
 /* 
 Function that returns the name of the most recently created directory. 
@@ -143,4 +78,115 @@ void getDir(char* newestDirName) {
 		}
 	}
 	closedir(dirToCheck);
+}
+
+/* Function to set the room name */
+void setRoomInfo(int idx, Room* r) {
+	/* Getting the directory name */
+	char dirName[256];
+	getDir(dirName);
+	/* Getting the path name */
+	char pathname[54];
+	if (idx == 0)
+		sprintf(pathname, "%s/first.txt", dirName);
+	else if (idx == 1)
+		sprintf(pathname, "%s/second.txt", dirName);
+	else if (idx == 2)
+		sprintf(pathname, "%s/third.txt", dirName);
+	else if (idx == 3)
+		sprintf(pathname, "%s/fourth.txt", dirName);
+	else if (idx == 4)
+		sprintf(pathname, "%s/fifth.txt", dirName);
+	else if (idx == 5)
+		sprintf(pathname, "%s/sixth.txt", dirName);
+	else if (idx == 6)
+		sprintf(pathname, "%s/seventh.txt", dirName);
+
+	/* Reading the file and storing it in an array */
+	char line[128];
+	char file[10][128];
+	int i = 0;
+	FILE* plist;
+	plist = fopen(pathname, "r");
+	/* Storing the file, line by line */
+	while (fgets(line, sizeof(line), plist) != NULL) {
+		strcpy(file[i], line);
+		i++;
+	}
+	fclose(plist);
+	int numlines = i;
+
+	/* Getting the room name */
+	char name1[128] = "ROOM NAME: Train\n";
+	char name2[128] = "ROOM NAME: Woody\n";
+	char name3[128] = "ROOM NAME: Freezer\n";
+	char name4[128] = "ROOM NAME: Fridge\n";
+	char name5[128] = "ROOM NAME: Wombat\n";
+	char name6[128] = "ROOM NAME: Aqua\n";
+	char name7[128] = "ROOM NAME: Metal\n";
+	char name8[128] = "ROOM NAME: Buffalo\n";
+	char name9[128] = "ROOM NAME: Stones\n";
+	char name10[128] = "ROOM NAME: Dark\n";
+
+	/* Determining what the room name is */
+	if (strcmp(name1, file[0]) == 0)
+		r[idx].RoomName = "Train";
+	else if (strcmp(name2, file[0]) == 0)
+		r[idx].RoomName = "Woody";
+	else if (strcmp(name3, file[0]) == 0)
+		r[idx].RoomName = "Freezer";
+	else if (strcmp(name4, file[0]) == 0)
+		r[idx].RoomName = "Fridge";
+	else if (strcmp(name5, file[0]) == 0)
+		r[idx].RoomName = "Wombat";
+	else if (strcmp(name6, file[0]) == 0)
+		r[idx].RoomName = "Aqua";
+	else if (strcmp(name7, file[0]) == 0)
+		r[idx].RoomName = "Metal";
+	else if (strcmp(name8, file[0]) == 0)
+		r[idx].RoomName = "Buffalo";
+	else if (strcmp(name9, file[0]) == 0)
+		r[idx].RoomName = "Stones";
+	else if (strcmp(name10, file[0]) == 0)
+		r[idx].RoomName = "Dark";
+
+	/* Setting the number of connection */
+	r[idx].NumConnections = numlines - 2;
+
+	/* Getting the room connections */
+	char connecName[128];
+	for (i = 1; i < numlines - 1; i++) {
+		sprintf(connecName, "CONNECTION %d: Train\n", i);
+		if (strcmp(connecName, file[i]) == 0)
+			r[idx].Connections[i - 1] = "Train";
+		sprintf(connecName, "CONNECTION %d: Woody\n", i);
+		if (strcmp(connecName, file[i]) == 0)
+			r[idx].Connections[i - 1] = "Woody";
+		sprintf(connecName, "CONNECTION %d: Freezer\n", i);
+		if (strcmp(connecName, file[i]) == 0)
+			r[idx].Connections[i - 1] = "Freezer";
+		sprintf(connecName, "CONNECTION %d: Fridge\n", i);
+		if (strcmp(connecName, file[i]) == 0)
+			r[idx].Connections[i - 1] = "Fridge";
+		sprintf(connecName, "CONNECTION %d: Wombat\n", i);
+		if (strcmp(connecName, file[i]) == 0)
+			r[idx].Connections[i - 1] = "Wombat";
+		sprintf(connecName, "CONNECTION %d: Aqua\n", i);
+		if (strcmp(connecName, file[i]) == 0)
+			r[idx].Connections[i - 1] = "Aqua";
+		sprintf(connecName, "CONNECTION %d: Metal\n", i);
+		if (strcmp(connecName, file[i]) == 0)
+			r[idx].Connections[i - 1] = "Metal";
+		sprintf(connecName, "CONNECTION %d: Buffalo\n", i);
+		if (strcmp(connecName, file[i]) == 0)
+			r[idx].Connections[i - 1] = "Buffalo";
+		sprintf(connecName, "CONNECTION %d: Stones\n", i);
+		if (strcmp(connecName, file[i]) == 0)
+			r[idx].Connections[i - 1] = "Stones";
+		sprintf(connecName, "CONNECTION %d: Dark\n", i);
+		if (strcmp(connecName, file[i]) == 0)
+			r[idx].Connections[i - 1] = "Dark";
+	}
+
+	return;
 }
