@@ -38,62 +38,7 @@ void getCurrentRoom(Player* p);
 void getConnections(Player* p);
 
 /* Function that acts as a hub for the game */
-int startGame(Player* p, Room* r) {
-	/* Checking to see if the current room is the end room */
-	int i;
-	char type[128] = "END_ROOM";
-	if (strcmp(type, p->CurrentRoom.RoomType) == 0) {
-		printf("YOU HAVE FOUND THE END ROOM. CONGRATULATIONS!\n");
-		printf("YOU TOOK %d STEPS. YOUR PATH TO VICTORY WAS:\n", p->numTurns);
-		for (i = 0; i < p->numTurns; i++) {
-			printf("%s", p->Rooms[i]);
-		}
-		return 0;
-	}
-
-	/* Printing the current room and possible connections */
-	getCurrentRoom(p);
-	getConnections(p);
-
-	/* Getting the user's input */
-	char buffer[32];
-	char* b = buffer;
-	size_t bufsize = 32;
-	size_t characters;
-	printf("WHERE TO? >");
-	characters = getline(&b, &bufsize, stdin);
-	
-	/* Checking if the user's input matches any valid connections */
-	char conect[128];
-	int valid = 0;
-	for (i = 0; i < p->CurrentRoom.NumConnections; i++) {
-		sprintf(conect, "%s\n", p->CurrentRoom.Connections[i]);
-		if (strcmp(conect, buffer) == 0) {
-			valid = 1;
-			break;
-		}
-	}
-	if (valid == 0) {
-		printf("\nHUH? I DON'T UNDERSTAND THAT ROOM. TRY AGAIN.\n\n");
-		return 1;
-	}
-
-	/* If the user's input is valid */
-	else if (valid == 1) {
-		strcpy(p->Rooms[p->numTurns], conect);
-		p->numTurns = (p->numTurns) + 1;
-
-		/* Moving the user to the next room */
-		char tmpstr[128];
-		for (i = 0; i < 7; i++) {
-			sprintf(tmpstr, "%s\n", r[i].RoomName);
-			if (strcmp(buffer, tmpstr) == 0)
-				p->CurrentRoom = r[i];
-		}
-	}
-	printf("\n");
-	return 1;
-}
+int startGame(Player* p, Room* r);
 
 /*
 Main Function
@@ -117,9 +62,9 @@ void main() {
 	Player* p;
 	p = malloc(sizeof(Player));
 	
-	p->Rooms = malloc(24 * sizeof(char*));
+	p->Rooms = malloc(100 * sizeof(char*));
 	for (i = 0; i < 24; i++) {
-		p->Rooms[i] = malloc(24 * sizeof(char));
+		p->Rooms[i] = malloc(100 * sizeof(char));
 	}
 	
 	/* Getting the starting room */
@@ -164,7 +109,13 @@ void getDir(char* newestDirName) {
 	closedir(dirToCheck);
 }
 
-/* Function to set the room name */
+/*
+Function that takes the 7 text files, and puts all of their information
+	into the Room struct. 
+Preconditions: The program is started and there are 7 text files in a
+	directory.
+Postconditions: The Room struct will have all needed Room data saved to it. 
+*/
 void setRoomInfo(int idx, Room* r) {
 	/* Getting the directory name */
 	char dirName[256];
@@ -286,12 +237,22 @@ void setRoomInfo(int idx, Room* r) {
 	return;
 }
 
-/* Function to print the current room */
+/*
+Function to print the room name of the current room the player is in. 
+Preconditions: The Room and Player struct are set. 
+Postconditions: The player's current location will be printed. 
+*/
 void getCurrentRoom(Player* p) {
 	printf("CURRENT LOCATION: %s\n", p->CurrentRoom.RoomName);
 }
 
-/* Function to print the possible room connections */
+/*
+Function to print all possible connections of the room the user is
+	currently in. 
+Preconditions: The Room and Player structs are set. 
+Postconditions: All possible connections of the user's current location
+	will be printed. 
+*/
 void getConnections(Player* p) {
 	int i;
 	printf("POSSIBLE CONNECTIONS: ");
@@ -301,4 +262,72 @@ void getConnections(Player* p) {
 		else
 			printf("%s.\n", p->CurrentRoom.Connections[i]);
 	}
+}
+
+/*
+Function that acts as a central hub for the game. This function controls
+	each of the users turns, and is called for each turn until the user
+	quits the program.
+Preconditions: The Room and Players structs are set. 
+Postconditions: The game will have completed successfully. 
+*/
+int startGame(Player* p, Room* r) {
+	/* Checking to see if the current room is the end room */
+	int i;
+	char type[128] = "END_ROOM";
+	if (strcmp(type, p->CurrentRoom.RoomType) == 0) {
+		printf("YOU HAVE FOUND THE END ROOM. CONGRATULATIONS!\n");
+		printf("YOU TOOK %d STEPS. YOUR PATH TO VICTORY WAS:\n", p->numTurns);
+		for (i = 0; i < p->numTurns; i++) {
+			printf("%s", p->Rooms[i]);
+		}
+		return 0;
+	}
+
+	/* Printing the current room and possible connections */
+	getCurrentRoom(p);
+	getConnections(p);
+
+	/* Getting the user's input */
+	char buffer[32];
+	char* b = buffer;
+	size_t bufsize = 32;
+	size_t characters;
+	printf("WHERE TO? >");
+	characters = getline(&b, &bufsize, stdin);
+
+	/* Checking if the user's input matches any valid connections */
+	char conect[128];
+	int valid = 0;
+	for (i = 0; i < p->CurrentRoom.NumConnections; i++) {
+		/* Checking the user's input against the possible connections */
+		sprintf(conect, "%s\n", p->CurrentRoom.Connections[i]);
+		if (strcmp(conect, buffer) == 0) {
+			valid = 1;
+			break;
+		}
+	}
+	/* If the user didn't input any valid input */
+	if (valid == 0) {
+		printf("\nHUH? I DON'T UNDERSTAND THAT ROOM. TRY AGAIN.\n\n");
+		return 1;
+	}
+
+	/* If the user's input is valid */
+	else if (valid == 1) {
+		strcpy(p->Rooms[p->numTurns], conect);
+		p->numTurns = (p->numTurns) + 1;
+
+		/* Moving the user to the next room */
+		char tmpstr[128];
+		for (i = 0; i < 7; i++) {
+			sprintf(tmpstr, "%s\n", r[i].RoomName);
+			/* Changing the struct behind the user's current room */
+			if (strcmp(buffer, tmpstr) == 0)
+				p->CurrentRoom = r[i];
+		}
+	}
+	/* Printing a final newline and returning */
+	printf("\n");
+	return 1;
 }
