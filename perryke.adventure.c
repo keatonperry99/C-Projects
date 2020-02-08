@@ -368,14 +368,6 @@ void getCurrentTime() {
 	/* Struct for the time data */
 	struct tm* local = localtime(&current);
 
-	/*
-	char* days[7] = { "Monday","Tuesday","Wednesday","Thursday",
-		"Friday","Saturday","Sunday" };
-	char* months[12] = { "January","February","March","April",
-		"May","June","July","August","September","October",
-		"November","December" };
-	*/
-
 	/* Getting the current day of the week */
 	char day[12];
 	if (local->tm_wday == 1)
@@ -431,23 +423,8 @@ void getCurrentTime() {
 		fprintf(fptr, "%d:%02dpm, %s, %s %d, %d\n",
 			(local->tm_hour) % 12, local->tm_min, day, month,
 			local->tm_mday, local->tm_year + 1900);
-	/*
-	if (local->tm_hour < 12) {
-		fprintf(fptr, "%d:%02dam, %s, %s %d, %d\n", 
-			(local->tm_hour) % 12, local->tm_min, 
-			days[local->tm_wday - 1], months[local->tm_mon], 
-			local->tm_mday, local->tm_year + 1900);
 	}
-	*/
-	/* If the current time is PM */
-	/*
-	else {
-		fprintf(fptr, "%d:%02dpm, %s, %s %d, %d\n", 
-			(local->tm_hour) % 12, local->tm_min, 
-			days[local->tm_wday - 1], months[local->tm_mon],
-			local->tm_mday, local->tm_year + 1900);
-	}
-	*/
+	
 	/* Closing the writing file */
 	fclose(fptr);
 	/* Opening the file to read only */
@@ -455,7 +432,7 @@ void getCurrentTime() {
 	/* Getting the data string that contains the time and date*/
 	fgets(data, sizeof(data), fptr);
 	/* Printing the time and date */
-	printf("\n%s", data);
+	printf("\n%s\n", data);
 	/* Closing the time file */
 	fclose(fptr);
 }
