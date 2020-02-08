@@ -79,18 +79,18 @@ int startGame(Player* p, Room* r) {
 	}
 
 	/* If the user's input is valid */
-	p->Rooms[p->numTurns] = conect;
-	printf("\n\n%s\n\n", p->Rooms[p->numTurns]);
-	p->numTurns++;
+	else if (valid == 1) {
+		p->Rooms[p->numTurns] = conect;
+		p->numTurns = (p->numTurns) + 1;
 
-	/* Moving the user to the next room */
-	char tmpstr[128];
-	for (i = 0; i < 7; i++) {
-		sprintf(tmpstr, "%s\n", r[i].RoomName);
-		if (strcmp(buffer, tmpstr) == 0)
-			p->CurrentRoom = r[i];
+		/* Moving the user to the next room */
+		char tmpstr[128];
+		for (i = 0; i < 7; i++) {
+			sprintf(tmpstr, "%s\n", r[i].RoomName);
+			if (strcmp(buffer, tmpstr) == 0)
+				p->CurrentRoom = r[i];
+		}
 	}
-
 	printf("\n");
 	return 1;
 }
@@ -117,7 +117,10 @@ void main() {
 	Player* p;
 	p = malloc(sizeof(Player));
 	
-	p->Rooms = malloc(12 * sizeof(char*));
+	p->Rooms = malloc(24 * sizeof(char*));
+	for (i = 0; i < 24; i++) {
+		p->Rooms[i] = malloc(24 * sizeof(char));
+	}
 	
 	/* Getting the starting room */
 	p->CurrentRoom = r[0];
@@ -126,9 +129,7 @@ void main() {
 	Starting the game
 	*/
 	p->numTurns = 0;
-	while (startGame(p, r) == 1) {
-
-	}
+	while (startGame(p, r) == 1);
 }
 /* 
 Function that returns the name of the most recently created directory. 
