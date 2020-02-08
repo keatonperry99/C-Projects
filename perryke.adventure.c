@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <time.h>
 
 /* Struct for the rooms */
 typedef struct {
@@ -24,6 +25,30 @@ typedef struct {
 /*
 Function Prototypes
 */
+
+void printTime() {
+	time_t rawtime;
+	char line[256]; memset(line, '\0', sizeof(line));
+	FILE* fp = fopen("currentTime.txt", "wr");
+	struct tm* timeP;
+	char* days[] = { "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday" };
+	char* months[] = { "January","February","March","April","May","June","July","August","September","October","November","December" };
+	time(&rawtime);
+	timeP = localtime(&rawtime);
+
+	if (timeP->tm_hour > 12) {
+		fprintf(fp, "%d:%02dpm, %s, %s %d, %d\n", (timeP->tm_hour) % 12, timeP->tm_min, days[timeP->tm_wday - 1], months[timeP->tm_mon], timeP->tm_mday, timeP->tm_year + 1900);
+	}
+	else {
+		fprintf(fp, "%d:%02dam, %s, %s %d, %d", (timeP->tm_hour) % 12, timeP->tm_min, days[timeP->tm_wday - 1], months[timeP->tm_mon], timeP->tm_mday, timeP->tm_year + 1900);
+	}
+	fclose(fp);
+	fp = fopen("currentTime.txt", "r");
+	fgets(line, sizeof(line), fp);
+	printf("\n%s", line);
+	fclose(fp);
+
+}
 
 /* Function to get the name of the newest directory */
 void getDir(char* newestDirName);
@@ -75,6 +100,8 @@ void main() {
 	*/
 	p->numTurns = 0;
 	while (startGame(p, r) == 1);
+
+	printTime();
 }
 /* 
 Function that returns the name of the most recently created directory. 
