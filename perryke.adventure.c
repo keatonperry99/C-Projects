@@ -80,7 +80,7 @@ int startGame(Player* p, Room* r) {
 
 	/* If the user's input is valid */
 	else if (valid == 1) {
-		p->Rooms[p->numTurns] = conect;
+		strcpy(p->Rooms[p->numTurns], conect);
 		p->numTurns = (p->numTurns) + 1;
 
 		/* Moving the user to the next room */
