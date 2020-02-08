@@ -227,10 +227,13 @@ void setRoomInfo(int idx, Room* r) {
 	char roomType1[128] = "ROOM TYPE: START_ROOM\n";
 	char roomType2[128] = "ROOM TYPE: MID_ROOM\n";
 	char roomType3[128] = "ROOM TYPE: END_ROOM\n";
+	/* If the room type is START_ROOM */
 	if (strcmp(roomType1, file[numlines - 1]) == 0)
 		r[idx].RoomType = "START_ROOM";
+	/* If the room type is MID_ROOM */
 	if (strcmp(roomType2, file[numlines - 1]) == 0)
 		r[idx].RoomType = "MID_ROOM";
+	/* If the room type is END_ROOM */
 	if (strcmp(roomType3, file[numlines - 1]) == 0)
 		r[idx].RoomType = "END_ROOM";
 
@@ -257,8 +260,10 @@ void getConnections(Player* p) {
 	int i;
 	printf("POSSIBLE CONNECTIONS: ");
 	for (i = 0; i < p->CurrentRoom.NumConnections; i++) {
+		/* Printing a "," after the connection */
 		if (i != (p->CurrentRoom.NumConnections - 1))
 			printf("%s, ", p->CurrentRoom.Connections[i]);
+		/* Printing a "." after the connection */
 		else
 			printf("%s.\n", p->CurrentRoom.Connections[i]);
 	}
@@ -276,6 +281,7 @@ int startGame(Player* p, Room* r) {
 	int i;
 	char type[128] = "END_ROOM";
 	if (strcmp(type, p->CurrentRoom.RoomType) == 0) {
+		/* Printing the end room message */
 		printf("YOU HAVE FOUND THE END ROOM. CONGRATULATIONS!\n");
 		printf("YOU TOOK %d STEPS. YOUR PATH TO VICTORY WAS:\n", p->numTurns);
 		for (i = 0; i < p->numTurns; i++) {
