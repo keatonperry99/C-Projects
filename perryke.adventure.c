@@ -378,28 +378,47 @@ void getCurrentTime() {
 
 	/* Getting the current day of the week */
 	char day[12];
-	if (local->tm_wday == 1) day[12] = "Monday";
-	else if (local->tm_wday == 2) day[12] = "Tuesday";
-	else if (local->tm_wday == 3) day[12] = "Wednesday";
-	else if (local->tm_wday == 4) day[12] = "Thursday";
-	else if (local->tm_wday == 5) day[12] = "Friday";
-	else if (local->tm_wday == 6) day[12] = "Saturday";
-	else if (local->tm_wday == 7) day[12] = "Sunday";
+	if (local->tm_wday == 1)
+		sprintf(day, "Monday");
+	else if (local->tm_wday == 2)
+		sprintf(day, "Tuesday");
+	else if (local->tm_wday == 3)
+		sprintf(day, "Wednesday");
+	else if (local->tm_wday == 4)
+		sprintf(day, "Thursday");
+	else if (local->tm_wday == 5)
+		sprintf(day, "Friday");
+	else if (local->tm_wday == 6)
+		sprintf(day, "Saturday");
+	else if (local->tm_wday == 7)
+		sprintf(day, "Sunday");
 
 	/* Getting the current month */
 	char month[12];
-	if (local->tm_mon == 0) month[12] = "January";
-	else if (local->tm_mon == 1) month[12] = "Februrary";
-	else if (local->tm_mon == 2) month[12] = "March";
-	else if (local->tm_mon == 3) month[12] = "April";
-	else if (local->tm_mon == 4) month[12] = "May";
-	else if (local->tm_mon == 5) month[12] = "June";
-	else if (local->tm_mon == 6) month[12] = "July";
-	else if (local->tm_mon == 7) month[12] = "August";
-	else if (local->tm_mon == 8) month[12] = "September";
-	else if (local->tm_mon == 9) month[12] = "October";
-	else if (local->tm_mon == 10) month[12] = "November";
-	else if (local->tm_mon == 11) month[12] = "December";
+	if (local->tm_mon == 0)
+		sprintf(month, "January");
+	else if (local->tm_mon == 1)
+		sprintf(month, "February");
+	else if (local->tm_mon == 2)
+		sprintf(month, "March");
+	else if (local->tm_mon == 3)
+		sprintf(month, "April");
+	else if (local->tm_mon == 4)
+		sprintf(month, "May");
+	else if (local->tm_mon == 5)
+		sprintf(month, "June");
+	else if (local->tm_mon == 6)
+		sprintf(month, "July");
+	else if (local->tm_mon == 7)
+		sprintf(month, "August");
+	else if (local->tm_mon == 8)
+		sprintf(month, "September");
+	else if (local->tm_mon == 9)
+		sprintf(month, "October");
+	else if (local->tm_mon == 10)
+		sprintf(month, "November");
+	else if (local->tm_mon == 11)
+		sprintf(month, "December");
 
 	/* If the current time is AM */
 	if (local->tm_hour < 12) {
