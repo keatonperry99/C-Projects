@@ -26,30 +26,6 @@ typedef struct {
 Function Prototypes
 */
 
-void printTime() {
-	time_t rawtime;
-	char line[256]; memset(line, '\0', sizeof(line));
-	FILE* fp = fopen("currentTime.txt", "wr");
-	struct tm* timeP;
-	char* days[] = { "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday" };
-	char* months[] = { "January","February","March","April","May","June","July","August","September","October","November","December" };
-	time(&rawtime);
-	timeP = localtime(&rawtime);
-
-	if (timeP->tm_hour > 12) {
-		fprintf(fp, "%d:%02dpm, %s, %s %d, %d\n", (timeP->tm_hour) % 12, timeP->tm_min, days[timeP->tm_wday - 1], months[timeP->tm_mon], timeP->tm_mday, timeP->tm_year + 1900);
-	}
-	else {
-		fprintf(fp, "%d:%02dam, %s, %s %d, %d", (timeP->tm_hour) % 12, timeP->tm_min, days[timeP->tm_wday - 1], months[timeP->tm_mon], timeP->tm_mday, timeP->tm_year + 1900);
-	}
-	fclose(fp);
-	fp = fopen("currentTime.txt", "r");
-	fgets(line, sizeof(line), fp);
-	printf("\n%s", line);
-	fclose(fp);
-
-}
-
 /* Function to get the name of the newest directory */
 void getDir(char* newestDirName);
 
@@ -64,6 +40,9 @@ void getConnections(Player* p);
 
 /* Function that acts as a hub for the game */
 int startGame(Player* p, Room* r);
+
+/* Function that gets the current time and prints it */
+void getCurrentTime();
 
 /*
 Main Function
@@ -101,7 +80,6 @@ void main() {
 	p->numTurns = 0;
 	while (startGame(p, r) == 1);
 
-	printTime();
 }
 /* 
 Function that returns the name of the most recently created directory. 
@@ -340,6 +318,12 @@ int startGame(Player* p, Room* r) {
 			break;
 		}
 	}
+	char usertime[12] = "time\n";
+	if (strcmp(buffer, usertime) == 0) {
+		getCurrentTime();
+		return 1;
+	}
+
 	/* If the user didn't input any valid input */
 	if (valid == 0) {
 		printf("\nHUH? I DON'T UNDERSTAND THAT ROOM. TRY AGAIN.\n\n");
@@ -363,4 +347,96 @@ int startGame(Player* p, Room* r) {
 	/* Printing a final newline and returning */
 	printf("\n");
 	return 1;
+}
+
+/*
+Function to get the current time and date, store it in a text file, 
+	and then print the contents of that text file. 
+Preconditions: The user has entered 'time' as their input. 
+Postconditions: The current time and date will be written to a text
+	file, and the contents of that file will be printed. 
+*/
+void getCurrentTime() {
+	/* Declaring the time type and getting the local time */
+	time_t current;
+	time(&current);
+	char data[128]; 
+	memset(data, '\0', sizeof(data));
+	/* File pointer for the time text file */
+	FILE* fptr = fopen("currentTime.txt", "wr");
+	
+	/* Struct for the time data */
+	struct tm* local = localtime(&current);
+
+	/*
+	char* days[7] = { "Monday","Tuesday","Wednesday","Thursday",
+		"Friday","Saturday","Sunday" };
+	char* months[12] = { "January","February","March","April",
+		"May","June","July","August","September","October",
+		"November","December" };
+	*/
+
+	/* Getting the current day of the week */
+	char day[12];
+	if (local->tm_wday == 1) day[12] = "Monday";
+	else if (local->tm_wday == 2) day[12] = "Tuesday";
+	else if (local->tm_wday == 3) day[12] = "Wednesday";
+	else if (local->tm_wday == 4) day[12] = "Thursday";
+	else if (local->tm_wday == 5) day[12] = "Friday";
+	else if (local->tm_wday == 6) day[12] = "Saturday";
+	else if (local->tm_wday == 7) day[12] = "Sunday";
+
+	/* Getting the current month */
+	char month[12];
+	if (local->tm_mon == 0) month[12] = "January";
+	else if (local->tm_mon == 1) month[12] = "Februrary";
+	else if (local->tm_mon == 2) month[12] = "March";
+	else if (local->tm_mon == 3) month[12] = "April";
+	else if (local->tm_mon == 4) month[12] = "May";
+	else if (local->tm_mon == 5) month[12] = "June";
+	else if (local->tm_mon == 6) month[12] = "July";
+	else if (local->tm_mon == 7) month[12] = "August";
+	else if (local->tm_mon == 8) month[12] = "September";
+	else if (local->tm_mon == 9) month[12] = "October";
+	else if (local->tm_mon == 10) month[12] = "November";
+	else if (local->tm_mon == 11) month[12] = "December";
+
+	/* If the current time is AM */
+	if (local->tm_hour < 12) {
+		fprintf(fptr, "%d:%02dam, %s, %s %d, %d\n",
+			(local->tm_hour) % 12, local->tm_min, day, month,
+			local->tm_mday, local->tm_year + 1900);
+	}
+	/* If the current time is PM */
+	else {
+		fprintf(fptr, "%d:%02dpm, %s, %s %d, %d\n",
+			(local->tm_hour) % 12, local->tm_min, day, month,
+			local->tm_mday, local->tm_year + 1900);
+	/*
+	if (local->tm_hour < 12) {
+		fprintf(fptr, "%d:%02dam, %s, %s %d, %d\n", 
+			(local->tm_hour) % 12, local->tm_min, 
+			days[local->tm_wday - 1], months[local->tm_mon], 
+			local->tm_mday, local->tm_year + 1900);
+	}
+	*/
+	/* If the current time is PM */
+	/*
+	else {
+		fprintf(fptr, "%d:%02dpm, %s, %s %d, %d\n", 
+			(local->tm_hour) % 12, local->tm_min, 
+			days[local->tm_wday - 1], months[local->tm_mon],
+			local->tm_mday, local->tm_year + 1900);
+	}
+	*/
+	/* Closing the writing file */
+	fclose(fptr);
+	/* Opening the file to read only */
+	fptr = fopen("currentTime.txt", "r");
+	/* Getting the data string that contains the time and date*/
+	fgets(data, sizeof(data), fptr);
+	/* Printing the time and date */
+	printf("\n%s", data);
+	/* Closing the time file */
+	fclose(fptr);
 }
